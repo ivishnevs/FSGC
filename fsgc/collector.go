@@ -44,10 +44,16 @@ func (c Collector) retrieveTTL(str string) (ttl time.Duration, ok bool) {
 
 func (c Collector) processPath(path string, f os.FileInfo, err error) error {
 	if err != nil {
+                log.Println(err)
 		return filepath.SkipDir
 	}
-	if ttl, ok := c.retrieveTTL(filepath.Base(path)); ok {
+        if fi, e := os.Stat(path); e != nil || fi.IsDir() {
+                // We never delete directories
+		return nil
+        }
+	if ttl, ok := c.retrieveTTL(path); ok {
 		if time.Since(f.ModTime()) > ttl {
+                        log.Println("Deleting: ", path)
 			if err := osRemoveAll(path); err != nil {
 				log.Printf("Cannot delete %v\n", path)
 			}

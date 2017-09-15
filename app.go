@@ -12,7 +12,7 @@ func main() {
 	flag.Parse()
 
 	settings := fsgc.CollectorSettings{
-		MarkerRegexp: regexp.MustCompile(`.*ttl=(?P<value>[0-9]+)(?P<suffix>h?)`),
+		MarkerRegexp: regexp.MustCompile(`.*ttl=(?P<value>[0-9]+)(?P<suffix>h?).*`),
 		SuffixToDuration: map[string]time.Duration{
 			"h": time.Hour,
 			"":  24 * time.Hour,
