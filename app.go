@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"regexp"
 	"time"
 	"./fsgc"
@@ -10,6 +11,7 @@ import (
 func main() {
 	root := flag.String("root", ".", "the root for cleaning up")
 	flag.Parse()
+	log.Printf("Starting FSGC on %s", *root)
 
 	settings := fsgc.CollectorSettings{
 		MarkerRegexp: regexp.MustCompile(`.*ttl=(?P<value>[0-9]+)(?P<suffix>h?).*`),
